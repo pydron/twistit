@@ -20,8 +20,11 @@
 
 import unittest
 import twistit
-
+import traceback
+import StringIO as stringio
+            
 from twisted.internet import defer
+from twisted.python import failure
 
 class TestYieldDefer(unittest.TestCase):
     """
@@ -150,6 +153,34 @@ class TestYieldDefer(unittest.TestCase):
         self.assertRaises(StubError, extract_deferred, d)
         
 
+        
+    def test_nested_in_traceback(self):
+                
+        faild = defer.Deferred()
+        
+        @twistit.yieldefer
+        def func_g():
+            yield faild
+            
+        @twistit.yieldefer
+        def func_h():
+            yield func_g()
+            
+        d = func_h()
+        
+        try:
+            raise ValueError("myerror")
+        except:
+            faild.errback()
+        
+        failure = extract_failure(d)
+        sfile = stringio.StringIO()
+        failure.printTraceback(file=sfile)
+        info = sfile.getvalue()
+        self.assertIn("func_h", info)
+        self.assertIn("func_g", info)
+
+
 class StubError(Exception):
     pass
         
@@ -169,4 +200,18 @@ def extract_deferred(d):
     else:
         return value[0]
     
+def extract_failure(d):
+    if not d.called:
+        raise ValueError("Deferred has not yet been called")
+    value = [None]
+    error = [None]
+    def success(v):
+        value[0] = v
+    def fail(v):
+        error[0] = v
+    d.addCallbacks(success, fail)
     
+    if error[0]:
+        return error[0]
+    else:
+        raise ValueError("Did not errback")
