@@ -16,7 +16,7 @@ compile anything, so there shouldn't be any surprises. Even on Windows.
 Bug Reports and other contributions
 -----------------------------------
 
-This project is hosted here `ifaddr github page <https://github.com/smurn/twistit>`_.
+This project is hosted here `twistit github page <https://github.com/smurn/twistit>`_.
  
 
 
