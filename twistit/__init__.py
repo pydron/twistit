@@ -21,3 +21,4 @@
 from twistit._events import Event
 from twistit._yieldefer import yieldefer
 from twistit._timeout import timeout_deferred, TimeoutError
+from twistit._errorhandling import on_error_close
