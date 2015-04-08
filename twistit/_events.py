@@ -51,12 +51,12 @@ class Event(object):
         """
         self._callbacks.remove(callback)
         
-    def next_event(self):
+    def next_event(self, canceller=None):
         """
         Returns a :class:`~defer.Deferred` that will be called back
         with the value of the next event.
         """
-        d = defer.Deferred()
+        d = defer.Deferred(canceller)
         
         def cb(value):
             self.remove_callback(d.callback)
