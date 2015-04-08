@@ -76,15 +76,25 @@ class TimeMock(object):
         Advances the clock by `seconds` seconds. This will call 
         delayed calls that are due before or at the new time.
         """
+        
+        #: the implementation is somewhat tricky. We have to go
+        #: through the time call by call, and new calls might
+        #: be added by the calls.
+        
         final_time = self._seconds + seconds
-        calls = sorted(self._delayed_calls, key=lambda c:c.time)
-        calls = [c for c in calls if c.time <= final_time]
         
-        for c in calls:
-            self._seconds = c.time
-            c.call()
-            self._delayed_calls.remove(c)
-        
-        self._seconds = final_time
+        if self._delayed_calls:
+            c = min(self._delayed_calls, key=lambda c:c.time)
+            if c.time <= final_time:
+                self._seconds = c.time
+                c.call()
+                self._delayed_calls.remove(c)
+                self.advanceTime(final_time - self._seconds)
+            else:
+                self._seconds = final_time
+        else:
+            self._seconds = final_time
+            
+
 
                 

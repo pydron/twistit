@@ -170,3 +170,27 @@ class TestTimeMock(unittest.TestCase):
         self.target.advanceTime(10)
         c.delay(50)
         self.assertEqual(c.getTime(), 165)
+        
+    def test_addcall_during_callback_stepbystep(self):
+        def cb():
+            self.target.callLater(10, self.f)
+        self.target.callLater(10, cb)
+        self.target.callLater(30, self.g)
+        
+        self.target.advanceTime(10)
+        self.target.advanceTime(10)
+        self.target.advanceTime(10)
+        
+        self.assertEqual(self.f_called_at, 20)
+        self.assertEqual(self.g_called_at, 30)
+        
+    def test_addcall_during_callback_onego(self):
+        def cb():
+            self.target.callLater(10, self.f)
+        self.target.callLater(10, cb)
+        self.target.callLater(30, self.g)
+        
+        self.target.advanceTime(30)
+        
+        self.assertEqual(self.f_called_at, 20)
+        self.assertEqual(self.g_called_at, 30)
