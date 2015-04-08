@@ -23,3 +23,4 @@ from twistit._yieldefer import yieldefer
 from twistit._timeout import timeout_deferred, TimeoutError
 from twistit._errorhandling import on_error_close
 from twistit._testing import extract, NotCalledError
+from twistit._mock import TimeMock
