@@ -9,13 +9,20 @@ class NotCalledError(Exception):
     def __init__(self):
         Exception.__init__(self, "Expected deferred to be finished by now.")
 
+def has_result(d):
+    """
+    Returns `True` if adding a callback now would cause that callback to
+    be invoked immediately. `False` if the deferred is waiting for the value.
+    """
+    return d.called and not d.paused
+
 def extract(d):
     """
     Returns the value the given deferred was called back with or
     raise the exception the deferred errbacked with. if the
     deferred hasn't been called, a :class:`NotCalledError` is raised.
     """
-    if not d.called:
+    if not has_result(d):
         raise NotCalledError()
     else:
         result = []
