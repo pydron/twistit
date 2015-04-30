@@ -36,4 +36,23 @@ def extract(d):
         else:
             return result
     
-    
+def extract_failure(d):
+    """
+    Returns the failure object the given deferred was errback'ed with.
+    If the deferred has result, not a failure a `ValueError` is raised.
+    If the deferred has no result yet a :class:`NotCalledError` is raised.
+    """
+    if not has_result(d):
+        raise NotCalledError()
+    else:
+        result = []
+        def callback(value):
+            result.append(value)
+        d.addBoth(callback)
+        
+        result = result[0]
+        if isinstance(result, failure.Failure):
+            return result
+        else:
+            raise ValueError("Deferred was called back with a value: %r" % result)
+        

@@ -18,6 +18,22 @@ class TestExtract(unittest.TestCase):
         d = defer.Deferred()
         self.assertRaises(twistit.NotCalledError, twistit.extract, d)
         
+class TestExtractFailure(unittest.TestCase):
+    
+    def test_success(self):
+        d = defer.succeed(42)
+        self.assertRaises(ValueError, twistit.extract_failure, d)
+        
+    def test_fail(self):
+        d = defer.fail(ValueError())
+        f = twistit.extract_failure(d)
+        self.assertTrue(f.check(ValueError))
+
+    def test_not_called(self):
+        d = defer.Deferred()
+        self.assertRaises(twistit.NotCalledError, twistit.extract_failure, d)
+        
+        
 class TestHasValue(unittest.TestCase):
     
     def test_success(self):

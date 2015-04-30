@@ -22,5 +22,5 @@ from twistit._events import Event
 from twistit._yieldefer import yieldefer
 from twistit._timeout import timeout_deferred, TimeoutError
 from twistit._errorhandling import on_error_close
-from twistit._testing import has_result, extract, NotCalledError
+from twistit._testing import has_result, extract, extract_failure, NotCalledError
 from twistit._mock import TimeMock
