@@ -36,5 +36,5 @@ setup(name='twistit',
       author_email='scm@smurn.org',
       url='https://github.com/smurn/twistit',
       packages=['twistit'],
-      install_requires = ['Twisted', 'utwist'],
+      install_requires = ['twisted>=15.0.0', 'utwist>=0.1.2'],
      )
