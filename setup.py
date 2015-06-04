@@ -29,12 +29,12 @@ else:
     long_description = ""
 
 setup(name='twistit',
-      version='0.2.0',
+      version='0.2.1',
       description='Handy tools for the twisted framework',
       long_description=long_description,
       author='Stefan C. Mueller',
       author_email='scm@smurn.org',
       url='https://github.com/smurn/twistit',
       packages=['twistit'],
-      install_requires = ['twisted>=15.0.0', 'utwist>=0.1.2'],
+      install_requires = ['twisted>=15.0.0', 'utwist>=0.1.3'],
      )
