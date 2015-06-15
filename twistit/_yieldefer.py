@@ -84,6 +84,8 @@ def _yielddefer(function, *args, **kwargs):
         d.addCallbacks(success, fail)
     except StopIteration:
         d = defer.succeed(None)
+    except defer._DefGen_Return as e:
+        d = defer.succeed(e.value)
     except:
         d = defer.fail()
         

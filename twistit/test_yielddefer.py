@@ -40,6 +40,17 @@ class TestYieldDefer(unittest.TestCase):
         d = mock()
         self.assertEqual(42, extract_deferred(d))
         
+    def test_retval(self):
+        
+        @twistit.yieldefer
+        def mock():
+            if False:
+                 yield 42
+            defer.returnValue(42)
+        
+        d = mock()
+        self.assertEqual(42, extract_deferred(d))
+        
     
     def test_yield_value(self):
         
