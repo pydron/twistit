@@ -29,7 +29,7 @@ else:
     long_description = ""
 
 setup(name='twistit',
-      version='0.2.1',
+      version='0.2.2',
       description='Handy tools for the twisted framework',
       long_description=long_description,
       author='Stefan C. Mueller',
