@@ -190,6 +190,24 @@ class TestYieldDefer(unittest.TestCase):
         info = sfile.getvalue()
         self.assertIn("func_h", info)
         self.assertIn("func_g", info)
+        
+    def test_regular_function_retval(self):
+        
+        @twistit.yieldefer
+        def f():
+            return 42
+        
+        d = f()
+        self.assertEqual(42, extract_deferred(d))
+        
+    def test_regular_function_except(self):
+        
+        @twistit.yieldefer
+        def f():
+            raise ValueError()
+        
+        d = f()
+        self.assertRaises(ValueError, extract_deferred, d)
 
 
 class StubError(Exception):

@@ -32,8 +32,10 @@ def _yielddefer(function, *args, **kwargs):
     """
     Called if a function decorated with :func:`yieldefer` is invoked.
     """
-    
-    retval = function(*args, **kwargs)
+    try:
+        retval = function(*args, **kwargs)
+    except:
+        return defer.fail()
     
     if isinstance(retval, defer.Deferred):
         return retval
