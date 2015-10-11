@@ -23,7 +23,9 @@ import threading
 import sys
 import traceback
 import logging
+import time
 logger = logging.getLogger(__name__)
+
 
 def holdup_detector(max_delay=0.2,report_interval=1, report=None):
     
@@ -39,8 +41,8 @@ def holdup_detector(max_delay=0.2,report_interval=1, report=None):
             
             stack = "  ".join(traceback.format_stack(frame))
             
-            logger.warn("Reactor thread busy for more than %s seconds: \n%s" % 
-                        (max_delay, stack))
+            logger.warn("Reactor thread busy at %s for more than %s seconds: \n%s" % 
+                        (time.time(), max_delay, stack))
     
     def monitor_thread():
         blocked = False
